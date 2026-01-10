@@ -1,0 +1,73 @@
+service:
+  name: profile-service
+  version: 1.0.0
+  port: 8006
+  workers: 4
+
+security:
+  jwt_algorithm: HS256
+  jwt_secret_key: ${JWT_SECRET_KEY:your-secret-key-change-in-production}
+  api_key_header: X-API-Key
+
+caching:
+  profile_ttl: 300  # 5 minutes
+  address_ttl: 600  # 10 minutes
+  kyc_status_ttl: 120  # 2 minutes
+  redis_url: ${REDIS_URL:redis://localhost:6379/0}
+  use_in_memory: ${USE_IN_MEMORY_CACHE:true}
+
+business:
+  max_addresses_per_profile: 10
+  kyc_validity_days: 365
+  kyc_renewal_warning_days: 30
+  maker_checker_sla_hours: 24
+  
+rate_limiting:
+  profile_update_per_hour: 10
+  address_add_per_month: 20
+  document_upload_per_day: 10
+
+external_services:
+  entity_service:
+    base_url: ${ENTITY_SERVICE_URL:http://localhost:8001/api/v1}
+    timeout: 10
+    retry_attempts: 3
+  document_service:
+    base_url: ${DOCUMENT_SERVICE_URL:http://localhost:8002/api/v1}
+    timeout: 10
+    retry_attempts: 3
+  authz_service:
+    base_url: ${AUTHZ_SERVICE_URL:http://localhost:8003/api/v1}
+    timeout: 5
+    retry_attempts: 2
+  notification_service:
+    base_url: ${NOTIFICATION_SERVICE_URL:http://localhost:8004/api/v1}
+    timeout: 5
+    retry_attempts: 2
+
+kyc_requirements:
+  standard:
+    - profile_photo
+    - pan
+    - aadhar
+    - address_proof
+  enhanced:
+    - profile_photo
+    - pan
+    - aadhar
+    - address_proof
+    - income_proof
+    - bank_statement
+  legacy:
+    - pan
+    - aadhar
+
+profile_completeness_weights:
+  personal_info: 50
+  address_info: 20
+  kyc_info: 20
+  documents_info: 10
+
+mandatory_consents:
+  - terms_and_conditions
+  - cibil_report_pull
