@@ -1,6 +1,6 @@
 """Audit models."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 from uuid import UUID
 
@@ -20,7 +20,7 @@ class AuditEntry(BaseModel):
     to_value: Optional[Any] = None
     field_name: Optional[str] = None
     reason: Optional[str] = None
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     correlation_id: Optional[str] = None
     
     class Config:

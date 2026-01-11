@@ -1,6 +1,6 @@
 """KYC models."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 from uuid import UUID
 
@@ -40,8 +40,8 @@ class KYCWorkflow(KYCWorkflowBase):
     document_verification_date: Optional[datetime] = None
     rejection_reason: Optional[str] = None
     expiry_date: Optional[datetime] = None
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     
     class Config:
         from_attributes = True

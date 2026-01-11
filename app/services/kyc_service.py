@@ -1,7 +1,7 @@
 """KYC service."""
 
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from app.cache import cache_manager
@@ -82,7 +82,7 @@ class KYCService:
         completed_checks[check_name] = verified
         
         if verified:
-            kyc[f"{check_name.replace('_verified', '')}_verification_date"] = datetime.utcnow().isoformat()
+            kyc[f"{check_name.replace('_verified', '')}_verification_date"] = datetime.now(timezone.utc).isoformat()
         
         # Check if all required checks are complete
         all_complete = all(completed_checks.values())
@@ -93,12 +93,12 @@ class KYCService:
         
         if all_complete:
             update_data["status"] = KYCStatus.VERIFIED.value
-            update_data["expiry_date"] = (datetime.utcnow() + timedelta(days=config.business.kyc_validity_days)).isoformat()
+            update_data["expiry_date"] = (datetime.now(timezone.utc) + timedelta(days=config.business.kyc_validity_days)).isoformat()
             
             # Update profile
             storage.update_profile(kyc["profile_id"], {
                 "kyc_status": KYCStatus.VERIFIED.value,
-                "kyc_verified_at": datetime.utcnow().isoformat(),
+                "kyc_verified_at": datetime.now(timezone.utc).isoformat(),
                 "kyc_expiry_at": update_data["expiry_date"]
             })
         

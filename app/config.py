@@ -130,7 +130,12 @@ class AppConfig(BaseSettings):
     # Business data
     kyc_requirements: Dict[str, List[str]] = Field(default_factory=lambda: config.get("kyc_requirements", {}))
     profile_completeness_weights: Dict[str, int] = Field(
-        default_factory=lambda: config.get("profile_completeness_weights", {})
+        default_factory=lambda: config.get("profile_completeness_weights", {
+            "personal_info": 50,
+            "address_info": 20,
+            "kyc_info": 20,
+            "documents_info": 10
+        })
     )
     mandatory_consents: List[str] = Field(default_factory=lambda: config.get("mandatory_consents", []))
 

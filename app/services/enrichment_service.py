@@ -1,7 +1,7 @@
 """Enrichment service with maker-checker workflow."""
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from app.models.enums import EnrichmentStatus
@@ -33,7 +33,7 @@ class EnrichmentService:
             "background_check_result": enrichment_data["background_check_result"],
             "maker_id": maker_id,
             "maker_notes": enrichment_data.get("verification_notes"),
-            "maker_submitted_at": datetime.utcnow().isoformat(),
+            "maker_submitted_at": datetime.now(timezone.utc).isoformat(),
             "status": EnrichmentStatus.PENDING_REVIEW.value
         }
         
@@ -73,7 +73,7 @@ class EnrichmentService:
             "checker_id": checker_id,
             "checker_notes": checker_notes,
             "checker_decision": decision,
-            "checker_reviewed_at": datetime.utcnow().isoformat(),
+            "checker_reviewed_at": datetime.now(timezone.utc).isoformat(),
             "status": status.value
         }
         
@@ -86,7 +86,7 @@ class EnrichmentService:
                 "risk_grade": enrichment["risk_grade"],
                 "credit_grade": enrichment["credit_grade"],
                 "background_check_status": enrichment["background_check_result"],
-                "enriched_at": datetime.utcnow().isoformat(),
+                "enriched_at": datetime.now(timezone.utc).isoformat(),
                 "enriched_by": enrichment["maker_id"]
             })
         

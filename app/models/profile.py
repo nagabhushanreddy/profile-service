@@ -1,6 +1,6 @@
 """Profile models."""
 
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from typing import Optional
 from uuid import UUID
 
@@ -95,9 +95,9 @@ class Profile(ProfileBase):
     completeness_percentage: float = Field(default=0.0, ge=0, le=100)
     
     # Audit fields
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     created_by: Optional[str] = None
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_by: Optional[str] = None
     deleted_at: Optional[datetime] = None
     

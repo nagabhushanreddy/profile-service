@@ -1,6 +1,6 @@
 """Enrichment models."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from uuid import UUID
 
@@ -42,7 +42,7 @@ class Enrichment(BaseModel):
     # Maker details
     maker_id: str
     maker_notes: Optional[str] = None
-    maker_submitted_at: datetime = Field(default_factory=datetime.utcnow)
+    maker_submitted_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     
     # Checker details
     checker_id: Optional[str] = None
@@ -52,7 +52,7 @@ class Enrichment(BaseModel):
     
     # Status
     status: EnrichmentStatus = EnrichmentStatus.PENDING_REVIEW
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     
     class Config:
         from_attributes = True

@@ -1,6 +1,6 @@
 """Document models."""
 
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from typing import Optional
 from uuid import UUID
 
@@ -36,7 +36,7 @@ class Document(BaseModel):
     verified_at: Optional[datetime] = None
     verification_notes: Optional[str] = None
     metadata: Optional[dict] = None
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     
     class Config:
         from_attributes = True

@@ -1,6 +1,6 @@
 """Common response models."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Generic, Optional, TypeVar
 
 from pydantic import BaseModel, Field
@@ -15,7 +15,7 @@ class ErrorDetail(BaseModel):
 
 class ResponseMetadata(BaseModel):
     """Response metadata."""
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     correlation_id: Optional[str] = None
 
 
@@ -51,4 +51,4 @@ class HealthResponse(BaseModel):
     status: str
     service: str
     version: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))

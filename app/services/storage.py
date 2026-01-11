@@ -1,7 +1,7 @@
 """In-memory storage for profile data (simulating database)."""
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List, Optional
 from uuid import UUID
 
@@ -37,8 +37,8 @@ def create_profile(profile_data: dict) -> dict:
     """Create new profile."""
     profile_id = generate_uuid()
     profile_data["id"] = profile_id
-    profile_data["created_at"] = datetime.utcnow().isoformat()
-    profile_data["updated_at"] = datetime.utcnow().isoformat()
+    profile_data["created_at"] = datetime.now(timezone.utc).isoformat()
+    profile_data["updated_at"] = datetime.now(timezone.utc).isoformat()
     profiles_db[profile_id] = profile_data
     return profile_data
 
@@ -48,7 +48,7 @@ def update_profile(profile_id: str, update_data: dict) -> Optional[dict]:
     if profile_id not in profiles_db:
         return None
     profiles_db[profile_id].update(update_data)
-    profiles_db[profile_id]["updated_at"] = datetime.utcnow().isoformat()
+    profiles_db[profile_id]["updated_at"] = datetime.now(timezone.utc).isoformat()
     return profiles_db[profile_id]
 
 
@@ -61,8 +61,8 @@ def create_address(address_data: dict) -> dict:
     """Create new address."""
     address_id = generate_uuid()
     address_data["id"] = address_id
-    address_data["created_at"] = datetime.utcnow().isoformat()
-    address_data["updated_at"] = datetime.utcnow().isoformat()
+    address_data["created_at"] = datetime.now(timezone.utc).isoformat()
+    address_data["updated_at"] = datetime.now(timezone.utc).isoformat()
     addresses_db[address_id] = address_data
     return address_data
 
@@ -77,7 +77,7 @@ def update_address(address_id: str, update_data: dict) -> Optional[dict]:
     if address_id not in addresses_db:
         return None
     addresses_db[address_id].update(update_data)
-    addresses_db[address_id]["updated_at"] = datetime.utcnow().isoformat()
+    addresses_db[address_id]["updated_at"] = datetime.now(timezone.utc).isoformat()
     return addresses_db[address_id]
 
 
@@ -85,7 +85,7 @@ def delete_address(address_id: str) -> bool:
     """Soft delete address."""
     if address_id not in addresses_db:
         return False
-    addresses_db[address_id]["deleted_at"] = datetime.utcnow().isoformat()
+    addresses_db[address_id]["deleted_at"] = datetime.now(timezone.utc).isoformat()
     return True
 
 
@@ -93,8 +93,8 @@ def create_kyc_workflow(kyc_data: dict) -> dict:
     """Create KYC workflow."""
     kyc_id = generate_uuid()
     kyc_data["id"] = kyc_id
-    kyc_data["created_at"] = datetime.utcnow().isoformat()
-    kyc_data["updated_at"] = datetime.utcnow().isoformat()
+    kyc_data["created_at"] = datetime.now(timezone.utc).isoformat()
+    kyc_data["updated_at"] = datetime.now(timezone.utc).isoformat()
     kyc_workflows_db[kyc_id] = kyc_data
     return kyc_data
 
@@ -112,7 +112,7 @@ def update_kyc_workflow(kyc_id: str, update_data: dict) -> Optional[dict]:
     if kyc_id not in kyc_workflows_db:
         return None
     kyc_workflows_db[kyc_id].update(update_data)
-    kyc_workflows_db[kyc_id]["updated_at"] = datetime.utcnow().isoformat()
+    kyc_workflows_db[kyc_id]["updated_at"] = datetime.now(timezone.utc).isoformat()
     return kyc_workflows_db[kyc_id]
 
 
@@ -120,7 +120,7 @@ def create_document(document_data: dict) -> dict:
     """Create document record."""
     doc_id = generate_uuid()
     document_data["id"] = doc_id
-    document_data["created_at"] = datetime.utcnow().isoformat()
+    document_data["created_at"] = datetime.now(timezone.utc).isoformat()
     documents_db[doc_id] = document_data
     return document_data
 
@@ -147,8 +147,8 @@ def create_consent(consent_data: dict) -> dict:
     """Create consent record."""
     consent_id = generate_uuid()
     consent_data["id"] = consent_id
-    consent_data["created_at"] = datetime.utcnow().isoformat()
-    consent_data["updated_at"] = datetime.utcnow().isoformat()
+    consent_data["created_at"] = datetime.now(timezone.utc).isoformat()
+    consent_data["updated_at"] = datetime.now(timezone.utc).isoformat()
     consents_db[consent_id] = consent_data
     return consent_data
 
@@ -163,7 +163,7 @@ def update_consent(consent_id: str, update_data: dict) -> Optional[dict]:
     if consent_id not in consents_db:
         return None
     consents_db[consent_id].update(update_data)
-    consents_db[consent_id]["updated_at"] = datetime.utcnow().isoformat()
+    consents_db[consent_id]["updated_at"] = datetime.now(timezone.utc).isoformat()
     return consents_db[consent_id]
 
 
@@ -171,7 +171,7 @@ def create_enrichment(enrichment_data: dict) -> dict:
     """Create enrichment record."""
     enrichment_id = generate_uuid()
     enrichment_data["id"] = enrichment_id
-    enrichment_data["created_at"] = datetime.utcnow().isoformat()
+    enrichment_data["created_at"] = datetime.now(timezone.utc).isoformat()
     enrichments_db[enrichment_id] = enrichment_data
     return enrichment_data
 
@@ -198,7 +198,7 @@ def create_audit_entry(audit_data: dict) -> dict:
     """Create audit entry."""
     audit_id = generate_uuid()
     audit_data["id"] = audit_id
-    audit_data["timestamp"] = datetime.utcnow().isoformat()
+    audit_data["timestamp"] = datetime.now(timezone.utc).isoformat()
     audit_entries_db[audit_id] = audit_data
     return audit_data
 

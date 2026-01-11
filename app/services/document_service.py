@@ -1,7 +1,7 @@
 """Document service."""
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from app.clients import document_service_client
@@ -31,7 +31,7 @@ class DocumentService:
         """Upload document."""
         # Upload to document service (simulated)
         doc_response = {
-            "document_id": f"doc_{datetime.utcnow().timestamp()}",
+            "document_id": f"doc_{datetime.now(timezone.utc).timestamp()}",
             "filename": filename,
             "status": "uploaded"
         }
@@ -101,7 +101,7 @@ class DocumentService:
         update_data = {
             "verification_status": status.value,
             "verified_by": verified_by,
-            "verified_at": datetime.utcnow().isoformat(),
+            "verified_at": datetime.now(timezone.utc).isoformat(),
             "verification_notes": verification_notes
         }
         

@@ -1,7 +1,7 @@
 """Consent service."""
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from app.models.enums import ConsentStatus
@@ -37,7 +37,7 @@ class ConsentService:
                 "consent_version": version
             }
             if decision == ConsentStatus.ACCEPTED.value:
-                update_data["accepted_at"] = datetime.utcnow().isoformat()
+                update_data["accepted_at"] = datetime.now(timezone.utc).isoformat()
             
             consent = storage.update_consent(existing["id"], update_data)
         else:
@@ -49,7 +49,7 @@ class ConsentService:
                 "consent_version": version
             }
             if decision == ConsentStatus.ACCEPTED.value:
-                consent_data["accepted_at"] = datetime.utcnow().isoformat()
+                consent_data["accepted_at"] = datetime.now(timezone.utc).isoformat()
             
             consent = storage.create_consent(consent_data)
         

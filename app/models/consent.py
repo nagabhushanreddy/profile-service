@@ -1,6 +1,6 @@
 """Consent models."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from uuid import UUID
 
@@ -23,8 +23,8 @@ class Consent(BaseModel):
     status: ConsentStatus = ConsentStatus.PENDING
     accepted_at: Optional[datetime] = None
     consent_version: str
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     
     class Config:
         from_attributes = True
