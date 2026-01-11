@@ -1,6 +1,7 @@
 """Main application entry point for Profile Service."""
 
-import logging
+import os
+from pathlib import Path
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -19,19 +20,16 @@ from app.routes import (
     profiles,
     reference,
 )
+from utils import init_utils, logger
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='{"timestamp": "%(asctime)s", "level": "%(levelname)s", "logger": "%(name)s", "message": "%(message)s"}'
-)
-logger = logging.getLogger(__name__)
+CONFIG_DIR = Path(os.environ.get("CONFIG_DIR", "config"))
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan events."""
-    # Startup
+    # Startup: Initialize utils-service configuration and logging
+    init_utils(CONFIG_DIR)
     logger.info(f"Starting {config.service.name} v{config.service.version}")
     logger.info(f"Environment: {config.service.environment}")
     logger.info(f"Port: {config.service.port}")
