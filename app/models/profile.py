@@ -4,7 +4,7 @@ from datetime import date, datetime, timezone
 from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 from app.models.enums import (
     EmploymentStatus,
@@ -101,8 +101,7 @@ class Profile(ProfileBase):
     updated_by: Optional[str] = None
     deleted_at: Optional[datetime] = None
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ProfileResponse(BaseModel):

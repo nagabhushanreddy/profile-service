@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.models.enums import AuditAction
 
@@ -23,8 +23,7 @@ class AuditEntry(BaseModel):
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     correlation_id: Optional[str] = None
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class AuditResponse(BaseModel):
